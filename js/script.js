@@ -1,5 +1,5 @@
 // 1.2 JavaScript Basicis pt.1 (Create a variable, pokemonList, and assign data to its array)
-let pokemonRepository = (function()){
+let pokemonRepository = (function(){
   let pokedex = [
     {
       name: 'Zapdos',
@@ -47,4 +47,4 @@ pokemonRepository.getALLF().forEach(function(pokemon) {
   } else {
     document.write(`${(pokemon.name)} - Height: ${pokemon.height}m <br/> <br/>`);
   }
-};
+});
