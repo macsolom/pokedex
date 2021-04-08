@@ -18,21 +18,32 @@ let pokemonRepository = (function(){
     return pokedex;
   }
 
-  return {
-    addF: add,
-    getAllF: getAll
-  };
-})();
-
-pokemonRepository.addF({name: 'Jynx', height: 1.4, types: ['Psychic', 'Ice']});
-
-//Using the .forEach method, this is iterating over the elements in the pokedex array and deciding based on height parameters how to write them out
-pokemonRepository.getALLF().forEach(function(pokemon) {
-  if (pokemon.height > 2.0 && pokemon.height < 5) {
-    document.write(`${(pokemon.name)} - Height: ${pokemon.height}m - Wow, that's big! <br/> <br/>`);
-  } else if (pokemon.height < 1.0) {
-    document.write(`${(pokemon.name)} - Height: ${pokemon.height}m - This is a small Pokemon! <br/> <br/>`);
-  } else {
-    document.write(`${(pokemon.name)} - Height: ${pokemon.height}m <br/> <br/>`);
+  function showDetails(pokemon) {
+    console.log(pokemon.name)
   }
+
+  /* Function to display pokemon from database on webpage. Contains a forEach method which creates a button with the name of each element iterated over */
+  function addListItem(pokemon){
+    let pokemonList = document.querySelector('.pokemon-list');
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = pokemon.name;
+    button.classList.add('button-class');
+    //event listener for on click to run the showDetails function
+    button.addEventListener('click', showDetails(pokemon));
+    listItem.appendChild(button);
+    pokemonList.appendChild(listItem);
+  };
+
+  return {
+    add: add,
+    getAll: getAll
+    addListItem: addListItem
+  };
+  })();
+
+pokemonRepository.add({name: 'Jynx', height: 1.4, types: ['Psychic', 'Ice']});
+
+pokemonRepository.getALL().forEach(function(pokemon) {
+  pokemonRepository.addListItem(pokemon)
 });
