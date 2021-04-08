@@ -1,8 +1,7 @@
   // 1.2 JavaScript Basicis pt.1 (Create a variable, pokemonList, and assign data to its array)
   let pokemonRepository = (function(){
-    let pokemonList = [
       let pokemonList = [];
-      let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=50';
+      let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
       let cap = function (name) {
         return name.charAt(0).toUpperCase() + name.slice(1);
   }
@@ -99,13 +98,14 @@
     add: add,
     getAll: getAll,
     addListItem: addListItem,
-    loadList: loadList
+    loadList: loadList,
+    loadDetails: loadDetails,
   };
   })();
 
   pokemonRepository.loadList().then(function() {
     // Now the data is loaded!
-    pokemonRepository.getAll().forEach(function(pokemon){
-      pokemonRepository.addListItem(pokemon);
+  pokemonRepository.getAll().forEach(function(pokemon){
+    pokemonRepository.addListItem(pokemon);
     });
   });
