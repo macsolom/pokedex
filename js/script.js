@@ -52,9 +52,11 @@
     button.innerText = pokemon.name;
     button.classList.add('button-class');
     //event listener for on click to run the showDetails function
-    button.addEventListener('click', showDetails(pokemon));
     listItem.appendChild(button);
     pokemonList.appendChild(listItem);
+    button.addEventListener('click', function(){
+      showDetails(pokemon);
+    });
   };
 
   function loadList() {
