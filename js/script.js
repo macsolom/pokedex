@@ -1,25 +1,47 @@
-// 1.2 JavaScript Basicis pt.1 (Create a variable, pokemonList, and assign data to its array)
-let pokemonRepository = (function(){
-  let pokedex = [
-    {name: 'Zapdos', height: 1.6, types: ['electric','flying']},
-    {name: 'Butterfree', height: 1.1, types: ['bug','flying']},
-    {name: 'Onix', height: 8.8, types: ['rock','ground']}
-  ];
+  // 1.2 JavaScript Basicis pt.1 (Create a variable, pokemonList, and assign data to its array)
+  let pokemonRepository = (function(){
+    let pokemonList = [
+      let pokemonList = [];
+      let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=50';
+      let cap = function (name) {
+        return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+
   // Adds pokemon to pokedex - contains a datatype check
   function add(pokeomon) {
     if (typeof pokemon === 'object' && typeof pokemon !== null) {
-      pokedex.push(pokemon);
+      pokemonList.push(pokemon);
     } else {
       console.log('you need an object');
     }
   }
+
   // Function to allow the retrival of the pokedex datatype
   function getAll() {
-    return pokedex;
+    return pokemonList;
   }
 
+  // Function that will log the pokemon name to console when called
   function showDetails(pokemon) {
-    console.log(pokemon.name)
+    loadDetails(pokemon).then(function () {
+      console.log(pokemon);
+    });
+  }
+
+  function showLoading(){
+    let pokemonList = document.querySelector('.pokedex-window');
+    let newDiv = document.createElement('div');
+    newDiv.innerText = 'Loading List!';
+    newDiv.classList.add('msg-board');
+    pokemonList.prepend(newDiv);
+  }
+
+  function hideLoading(){
+    let pokemonList = document.querySelector('.pokedex-window');
+    let node = pokemonList.firstElementChild;
+    setTimeout(function () {
+      node.parentElement.removeChild(node);
+    }, 1000)
   }
 
   /* Function to display pokemon from database on webpage. Contains a forEach method which creates a button with the name of each element iterated over */
@@ -35,15 +57,53 @@ let pokemonRepository = (function(){
     pokemonList.appendChild(listItem);
   };
 
+  function loadList() {
+    showLoading();
+    return fetch(apiUrl).then(function (response) {
+      return response.json();
+      }).then(function (json) {
+      json.results.forEach(function (item) {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url
+        };
+        add(pokemon);
+      });
+      }).then (function (){
+        hideLoading();
+      }).catch(function (e) {
+        hideLoading();
+        console.error(e);
+      })
+  }
+
+  function loadDetails(item) {
+    let url = item.detailsUrl;
+    return fetch(url).then(function (response) {
+      return response.json();
+    }).then(function (details) {
+      // Now we add the details to the item
+      item.imageUrl = details.sprites.front_default;
+      item.height = details.height;
+      item.types = details.types;
+    }).then (function (){
+    }).catch(function (e) {
+      console.error(e);
+    });
+  }
+
+  //Allows access to the IIFE
   return {
     add: add,
     getAll: getAll,
-    addListItem: addListItem
+    addListItem: addListItem,
+    loadList: loadList
   };
   })();
 
-pokemonRepository.add({name: 'Jynx', height: 1.4, types: ['Psychic', 'Ice']});
-
-pokemonRepository.getAll().forEach(function(pokemon) {
-  pokemonRepository.addListItem(pokemon)
-});
+  pokemonRepository.loadList().then(function() {
+    // Now the data is loaded!
+    pokemonRepository.getAll().forEach(function(pokemon){
+      pokemonRepository.addListItem(pokemon);
+    });
+  });
