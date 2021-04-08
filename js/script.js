@@ -37,13 +37,13 @@ let pokemonRepository = (function(){
 
   return {
     add: add,
-    getAll: getAll
+    getAll: getAll,
     addListItem: addListItem
   };
   })();
 
 pokemonRepository.add({name: 'Jynx', height: 1.4, types: ['Psychic', 'Ice']});
 
-pokemonRepository.getALL().forEach(function(pokemon) {
+pokemonRepository.getAll().forEach(function(pokemon) {
   pokemonRepository.addListItem(pokemon)
 });
