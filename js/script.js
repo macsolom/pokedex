@@ -7,7 +7,7 @@
   }
 
   // Adds pokemon to pokedex - contains a datatype check
-  function add(pokeomon) {
+  function add(pokemon) {
     if (
       typeof pokemon === 'object' &&
       'name' in pokemon &&
