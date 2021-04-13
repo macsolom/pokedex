@@ -1,9 +1,11 @@
   let pokemonRepository = (function(){
-  let pokemonList = [];
-  let apiURL = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-  // Function to allow the retrival of the pokedex datatype
-  function getAll() {
-    return pokemonList;
+    let modalContainer = document.querySelector('#modal-container');
+    let pokeList = document.querySelector('.pokemon-list');
+    let pokemonList = [];
+    let apiURL = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+    // Function to allow the retrival of the pokedex datatype
+    function getAll() {
+      return pokemonList;
   }
 
   // Adds pokemon to pokedex - contains a datatype check
@@ -20,7 +22,8 @@
   // Function that will log the pokemon name to console when called
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      console.log(pokemon);
+      //Calling the modal
+      showModal(pokemon);
     });
   }
 
@@ -67,6 +70,62 @@
       console.error(e);
     });
   }
+
+  //Modal for Podex Task 1.8
+  function showModal(pokemon) {
+
+    modalContainer.innerHTML = '';
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+
+    let closeButtonElement = document.createElement('button');
+    closeButtonElement.classList.add('modal-close');
+    closeButtonElement.innerText = 'Close';
+    closeButtonElement.addEventListener('click', hideModal);
+    modal.appendChild(closeButtonElement);
+
+    //get the name of the pokemon and display it on Modal
+    let pokeName = document.createElement('h1');
+    pokeName.innerText = pokemon.name;
+    modal.appendChild(pokeName);
+
+    //Get the height of the pokemon and display it on the Modal
+    let pokeHeight = document.createElement('p');
+    pokeHeight.innerText = pokemon.height;
+    modal.appendChild(pokeHeight);
+
+    //get the img of the pokemon and display it on the Modal
+    let containerImg = document.querySelector('#image-container');
+    let pokImg = document.createElement('img');
+    pokeImg.src = pokemon.imageUrl;
+    modal.appendChild(pokeImg);
+
+
+    //modal is the child of modalContainer
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.add('is-visible');
+  }
+
+  //Hide function
+  function hideModal() {
+    modalContainer.classList.remove('is-visible');
+  }
+
+  // close the Model when Escape key got hitted
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+      hideModal();
+    }
+  });
+
+  // Close the function when the user clicked outside the Modal
+  modalContainer.addEventListener('click', (e) => {
+    let target = e.target;
+    if (target === modalContainer) {
+      hideModal();
+    }
+  });
 
   //Allows access to the IIFE
   return {
