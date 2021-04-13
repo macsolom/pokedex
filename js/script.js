@@ -96,7 +96,7 @@
 
     //get the img of the pokemon and display it on the Modal
     let containerImg = document.querySelector('#image-container');
-    let pokImg = document.createElement('img');
+    let pokeImg = document.createElement('img');
     pokeImg.src = pokemon.imageUrl;
     modal.appendChild(pokeImg);
 
