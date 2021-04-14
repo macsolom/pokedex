@@ -2,8 +2,15 @@
     box-sizing: border-box;
 }
 
+.title{
+  display: grid;
+  text-align: center;
+}
+
 .pokemon-list{
   list-style-type: none;
+  display: grid;
+  text-align: center;
 }
 
 body {
@@ -31,11 +38,12 @@ body {
   text-align: center;
 }
 
+
 .modal {
   margin: auto;
   display: inline-block;
   box-sizing: border-box;
-  background: #fff;
+  background: #FFFAF0;
   padding: 15px;
   width: 100%;
   max-width: 700px;
@@ -61,8 +69,8 @@ body {
 
 #show-modal {
   display: block;
-}
 
+}
 #modal-container {
   display: none;
 }
